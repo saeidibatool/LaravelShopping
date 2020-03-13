@@ -90,7 +90,7 @@
                         </span>
                       </div>
                       <div class="button-group">
-                        <button class="btn-primary" type="button" onClick=""><span>افزودن به سبد</span></button>
+                        <button class="btn-primary " type="button" onClick=""><span>افزودن به سبد</span></button>
                         <div class="add-to-links">
                           <button type="button" data-toggle="tooltip" title="افزودن به علاقه مندی" onClick=""><i class="fa fa-heart"></i></button>
                           <button type="button" data-toggle="tooltip" title="افزودن به مقایسه" onClick=""><i class="fa fa-exchange"></i></button>
@@ -105,4 +105,12 @@
           <?php endforeach; ?>
       </div>
     </div>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $.ajaxSetup({
+
+        });
+      });
+    </script>
 @endsection
