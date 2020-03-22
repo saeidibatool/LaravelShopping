@@ -25,7 +25,7 @@
 
         </div>
         <div class="button-group">
-          <button class="btn-primary add-to-cart" type="button" onClick="cart.add('42');" data-id="{{$special->id}}"><span>افزودن به سبد</span></button>
+          <button class="btn-primary add-to-cart" type="button" onClick="" data-id="{{$special->id}}"><span>افزودن به سبد</span></button>
           <div class="add-to-links">
             <button type="button" data-toggle="tooltip" title="Add to Wish List" onClick=""><i class="fa fa-heart"></i></button>
             <button type="button" data-toggle="tooltip" title="مقایسه this محصولات" onClick=""><i class="fa fa-exchange"></i></button>
@@ -109,7 +109,25 @@
     <script type="text/javascript">
       $(document).ready(function(){
         $.ajaxSetup({
-
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+        $('.add-to-cart').on('click', function(){
+          var id=$(this).attr('data-id');
+          $.ajax({
+            url:'/product/store',
+            type:'post',
+            dataType:'json',
+            data:{id:id},
+            success:function(data){
+              if(data.basket_create == 'success'){
+                alert('محصول مورد نظر با موفقیت به سبد خرید اضافه شد');
+              }else if (data.count == 'exceeded') {
+                alert('تعداد محصولات انتخاب شده بیش از موجودی انبار است!');
+              }
+            }
+          });
         });
       });
     </script>

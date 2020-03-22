@@ -1,23 +1,29 @@
 <!DOCTYPE html>
 <html dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="format-detection" content="telephone=no" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<link href="/image/favicon.png" rel="icon" />
-<title>مارکت شاپ - قالب HTML فروشگاهی</title>
-<meta name="description" content="Responsive and clean html template design for any kind of ecommerce webshop">
-<!-- CSS Part Start-->
-<link rel="stylesheet" type="text/css" href="/js/bootstrap/css/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="/js/bootstrap/css/bootstrap-rtl.min.css" />
-<link rel="stylesheet" type="text/css" href="/css/font-awesome/css/font-awesome.min.css" />
-<link rel="stylesheet" type="text/css" href="/css/stylesheet.css" />
-<link rel="stylesheet" type="text/css" href="/css/owl.carousel.css" />
-<link rel="stylesheet" type="text/css" href="/css/owl.transitions.css" />
-<link rel="stylesheet" type="text/css" href="/css/responsive.css" />
-<link rel="stylesheet" type="text/css" href="/css/stylesheet-rtl.css" />
-<link rel="stylesheet" type="text/css" href="/css/responsive-rtl.css" />
-<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans' type='text/css'>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta charset="UTF-8" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link href="/image/favicon.png" rel="icon" />
+  <title>مارکت شاپ - قالب HTML فروشگاهی</title>
+  <meta name="description" content="Responsive and clean html template design for any kind of ecommerce webshop">
+  <script type="text/javascript" src="/js/jquery-2.1.1.min.js"></script>
+  <!-- CSS Part Start-->
+  <link rel="stylesheet" type="text/css" href="/js/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="/js/bootstrap/css/bootstrap-rtl.min.css" />
+  <link rel="stylesheet" type="text/css" href="/css/font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" type="text/css" href="/css/stylesheet.css" />
+  <link rel="stylesheet" type="text/css" href="/css/owl.carousel.css" />
+  <link rel="stylesheet" type="text/css" href="/css/owl.transitions.css" />
+  <link rel="stylesheet" type="text/css" href="/css/responsive.css" />
+  <link rel="stylesheet" type="text/css" href="/css/stylesheet-rtl.css" />
+  <link rel="stylesheet" type="text/css" href="/css/responsive-rtl.css" />
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans' type='text/css'>
+
+
+
+
 <!-- CSS Part End-->
 </head>
 <body>
@@ -144,47 +150,50 @@
           <!-- Logo End -->
           <!-- Mini Cart Start-->
           <div class="col-table-cell col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div id="cart">
-              <button type="button" data-toggle="dropdown" data-loading-text="Loading..." class="heading dropdown-toggle">
+            @auth
+
+              <div id="cart">
+              <a href="/basket" id="shop-cart" type="button" data-toggle="dropdown" data-loading-text="Loading..." class="heading dropdown-toggle">
                 <span class="cart-icon pull-left flip"></span>
-                <span id="cart-total">2 آیتم - 132000 تومان</span>
-              </button>
+                <span id="cart-total">
+                  <?php if ($baskets != null && count($baskets) > 0): ?>
+                    {{count($baskets)}}
+                  <?php endif; ?>
+                  <?php $sum = 0; ?>
+                  <?php foreach ($baskets as $basket): ?>
+                    <?php $sum += $basket->price * $basket->count; ?>
+                  <?php endforeach; ?>
+
+                  آیتم - {{$sum}} تومان</span>
+              </a>
               <ul class="dropdown-menu">
                 <li>
                   <table class="table">
                     <tbody>
-                      <tr>
-                        <td class="text-center">
-                          <a href="product.html">
-                            <img class="img-thumbnail" title="کفش راحتی مردانه" alt="کفش راحتی مردانه" src="/image/product/sony_vaio_1-50x50.jpg">
-                          </a>
-                        </td>
-                        <td class="text-left">
-                          <a href="product.html">کفش راحتی مردانه</a>
-                        </td>
-                        <td class="text-right">x 1</td>
-                        <td class="text-right">32000 تومان</td>
-                        <td class="text-center">
-                          <button class="btn btn-danger btn-xs remove" title="حذف" onClick="" type="button">
-                            <i class="fa fa-times"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="text-center">
-                          <a href="product.html">
-                            <img class="img-thumbnail" title="تبلت ایسر" alt="تبلت ایسر" src="/image/product/samsung_tab_1-50x50.jpg">
-                          </a>
-                        </td>
-                        <td class="text-left"><a href="product.html">تبلت ایسر</a></td>
-                        <td class="text-right">x 1</td>
-                        <td class="text-right">98000 تومان</td>
-                        <td class="text-center">
-                          <button class="btn btn-danger btn-xs remove" title="حذف" onClick="" type="button">
-                            <i class="fa fa-times"></i>
-                          </button>
-                        </td>
-                      </tr>
+                      <?php $total = 0; ?>
+                      <?php foreach ($baskets as $basket): ?>
+
+                        <tr>
+                          <td class="text-center">
+                            <a href="product.html">
+                              <img class="img-thumbnail" title="{{$basket->product->name}}" alt="{{$basket->product->name}}" src="/{{$basket->product->image}}">
+                            </a>
+                          </td>
+                          <td class="text-left">
+                            <a href="product.html">{{$basket->product->name}}</a>
+                          </td>
+                          <td class="text-right">{{$basket->count}}</td>
+                          <td class="text-right">{{$basket->price}} تومان</td>
+                          <?php $total += $basket->price ?>
+                          <td class="text-center">
+                            <button class="btn btn-danger btn-xs remove" title="حذف" onClick="" type="button">
+                              <i class="fa fa-times"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      <?php endforeach; ?>
+
+
                     </tbody>
                   </table>
                 </li>
@@ -223,6 +232,7 @@
                 </li>
               </ul>
             </div>
+            @endauth
           </div>
           <!-- Mini Cart End-->
           <!-- جستجو Start-->

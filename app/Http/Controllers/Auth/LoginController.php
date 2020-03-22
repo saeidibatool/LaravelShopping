@@ -49,11 +49,11 @@ class LoginController extends Controller
 
     public function redirectToProvider(){
       // return "hi";
-      return Socialite::driver('google')->redirect();
+      return Socialite::driver('google')->stateless()->redirect();
     }
 
     public function handleProviderCallback(){
-      $google_user = Socialite::driver('google')->user();
+      $google_user = Socialite::driver('google')->stateless()->user();
       $user = User::whereEmail($google_user->getEmail())->first();
       if(!$user){
         $user = User::create([

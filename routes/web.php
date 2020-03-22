@@ -45,4 +45,11 @@ Route::group(['namespace'=>'admin','middleware'=>['auth','isVerified','UserLevel
   Route::resource('/sliderparent', 'Slider_parentController');
 });
 
+
+//Client Routes
 Route::resource('/category', 'CategoryController');
+
+Route::group([],function(){
+  Route::resource('/product/store', 'BasketController');
+  Route::get('/basket', 'BasketController@index')->middleware('auth');
+});

@@ -58,7 +58,10 @@
           <div class="form-group">
             <label for="exampleInputFile">توضیحات محصول</label>
           </div>
-          <textarea name="body" rows="8" cols="140">{{old('body')}}</textarea>
+          <textarea name="body" id ="body" rows="8" cols="140" class="ckeditor">{{old('body')}}</textarea>
+          <script type="text/javascript">
+            CKEDITOR.replace( 'body' );
+         </script>
 
         </div>
         <!-- /.box-body -->
